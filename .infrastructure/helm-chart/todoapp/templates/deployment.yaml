@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Chart.Name }}-deployment
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Values.common.namespace }}
 spec:
   strategy:
     type: RollingUpdate
@@ -38,11 +38,6 @@ spec:
               memory: {{ .Values.resources.limits.memory }}
               cpu: {{ .Values.resources.limits.cpu }}
           env:
-            - name: PYTHONUNBUFFERED
-              valueFrom:
-                configMapKeyRef:
-                  name: {{ .Chart.Name }}-config
-                  key: PYTHONUNBUFFERED
 {{- range $key, $value := .Values.secrets.appSecret }}
             - name: {{ $key }}
               valueFrom:
